@@ -4,12 +4,9 @@
 
 ### Troubleshooting `Free usage limit reached` on Windows
 
-Understand the issue, investigate network restrictions, and restore access to OpenCode free models.
-
 ![Windows](https://img.shields.io/badge/OS-Windows_11-blue?logo=windows)
 ![OpenCode](https://img.shields.io/badge/OpenCode-v2.3.0-purple)
 ![Status](https://img.shields.io/badge/Status-Success-brightgreen)
-![License](https://img.shields.io/badge/License-MIT-green)
 
 </div>
 
@@ -25,7 +22,7 @@ Understand the issue, investigate network restrictions, and restore access to Op
 - [VPN Testing](#-vpn-testing)
 - [Final Test Results](#-final-test-results)
 - [Daily Workflow](#-daily-workflow)
-- [Troubleshooting Commands](#-troubleshooting-commands)
+- [Useful Commands](#-useful-commands)
 - [Security Notes](#-security-notes)
 - [Conclusion](#-conclusion)
 
@@ -37,21 +34,19 @@ While using OpenCode CLI, the following error appeared:
 
 ```text
 You've used today's free messages.
-They reset at 6:07 AM · 11/15/2026.
+They reset at 6:07 AM.
 ```
 
 Even after trying different OpenCode accounts and API keys, the error continued.
 
-The same problem occurred when switching between different free models.
+### Initial troubleshooting
 
-### What I initially tried
-
-- Switching to different OpenCode Console accounts.
-- Generating new API keys.
-- Restarting OpenCode.
-- Trying different free models.
-- Changing network connections.
-- Connecting through a VPN.
+- Switched between different OpenCode accounts.
+- Generated different API keys.
+- Restarted OpenCode.
+- Tried different free models.
+- Changed network connections.
+- Connected through a VPN.
 
 Changing accounts and API keys alone did not solve the issue.
 
@@ -74,22 +69,10 @@ Changing accounts and API keys alone did not solve the issue.
 opencode --version
 ```
 
-Output:
-
-```text
-opencode v2.3.0
-```
-
 ### Check Authentication
 
 ```powershell
 opencode auth list
-```
-
-Output:
-
-```text
-OpenCode Console  OpenCode Console  stored
 ```
 
 ### List Available Models
@@ -102,7 +85,7 @@ opencode models
 
 ## 🔍 Initial Investigation
 
-First, I tested different free models.
+Tested different free models.
 
 ### Test 1: Big Pickle
 
@@ -142,19 +125,15 @@ To investigate whether the network connection was involved, I checked my public 
 curl.exe https://api.ipify.org
 ```
 
-### Original Public IP
+The command returned the public IP assigned by the internet connection.
 
-```text
-182.60.12.122
-```
-
-This was the IP returned without a VPN.
+**Note:** Actual IP addresses are intentionally excluded from this documentation for privacy.
 
 ---
 
 ## 🔄 Changing Network Connection
 
-Several methods can change your network IP or connection.
+Several methods can change your network connection or IP address.
 
 ### Method 1: Renew Local IP
 
@@ -198,24 +177,15 @@ Next, I connected to a VPN and checked the public IP again.
 curl.exe https://api.ipify.org
 ```
 
-### VPN Public IP
+The command returned a different public IP after connecting to the VPN.
 
-```text
-31.43.129.131
-```
+**Result:** VPN connection successfully changed the public IP.
 
-### IP Comparison
-
-| Connection | Public IP |
-|---|---|
-| Normal Internet | `182.60.12.122` |
-| VPN | `31.43.129.131` |
-
-The public IP successfully changed after connecting to the VPN.
+Actual IP addresses are intentionally not disclosed.
 
 ---
 
-## ✅ VPN Testing – The Solution
+## ✅ VPN Testing – Successful Result
 
 With the VPN connected, I tested the same OpenCode models again.
 
@@ -266,9 +236,9 @@ Both models worked successfully without changing the existing OpenCode authentic
 
 - Changing accounts did not solve the problem.
 - Generating additional API keys did not solve the problem.
-- Changing the public IP through VPN coincided with successful model requests.
+- Connecting through a VPN coincided with successful model requests.
 - Both tested free models worked through the VPN.
-- The existing OpenCode authentication was sufficient.
+- Existing OpenCode authentication was sufficient.
 
 **Important:** This strongly suggests that the original network connection or its associated IP reputation was involved. However, these tests do not conclusively prove that OpenCode uses IP-based quota enforcement.
 
@@ -306,9 +276,7 @@ Continue using your preferred OpenCode models.
 
 ---
 
-## 🛠️ Troubleshooting Commands
-
-Keep these commands handy.
+## 🛠️ Useful Commands
 
 | Purpose | Command |
 |---|---|
@@ -339,10 +307,8 @@ opencode run --model opencode/glm-5.3-flash-free "Reply only OK"
 - Never publish your OpenCode Console API key.
 - Never upload API keys to GitHub.
 - Revoke exposed API keys immediately.
-- Use environment variables or secure authentication storage.
+- Use secure authentication storage.
 - Do not commit personal IP addresses or authentication credentials to public repositories.
-
-**Important:** An API key was exposed during the original troubleshooting conversation. That key should be revoked and replaced.
 
 ---
 
@@ -379,10 +345,6 @@ SUCCESS
 
 <div align="center">
 
-### ⭐ Found this troubleshooting guide useful?
-
-Feel free to fork, share, or improve this documentation.
-
-**Happy Coding! 🚀**
+### ⭐ Happy Coding! 🚀
 
 </div>
