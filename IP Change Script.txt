@@ -1,0 +1,69 @@
+@echo off
+setlocal EnableDelayedExpansion
+
+:: ==============================
+:: CONFIG SECTION – EDIT THIS
+:: ==============================
+:: Name of your network adapter (check using:  netsh interface show interface)
+set "INTERFACE=Ethernet"
+
+:: New IP configuration
+set "NEW_IP=192.168.0.52"
+set "NEW_MASK=255.255.255.0"
+set "NEW_GW=192.168.0.1"
+
+:: DNS servers
+set "NEW_DNS1=8.8.8.8"
+set "NEW_DNS2=8.8.4.4"
+:: ==============================
+:: END CONFIG SECTION
+:: ==============================
+
+echo.
+echo Changing IP configuration for "%INTERFACE%" ...
+echo.
+
+:: Set static IP, subnet mask, gateway
+netsh interface ip set address name="%INTERFACE%" static %NEW_IP% %NEW_MASK% %NEW_GW% 1
+if errorlevel 1 goto :error
+
+:: Set primary DNS
+netsh interface ip set dns name="%INTERFACE%" static %NEW_DNS1% primary
+if errorlevel 1 goto :error
+
+:: Set secondary DNS (optional)
+if defined NEW_DNS2 (
+    netsh interface ip add dns name="%INTERFACE%" %NEW_DNS2% index=2
+)
+
+:: Change console text color to Green (0A = Black background, Light Green text)
+color 0A
+
+echo.
+echo ===========================================================
+echo       Your IP Has Been Changed Successfully!
+echo -----------------------------------------------------------
+echo   Now your IP        : %NEW_IP%
+echo   Your Gateway       : %NEW_GW%
+echo   Your Subnet Mask   : %NEW_MASK%
+echo   Your DNS           : %NEW_DNS1%
+if defined NEW_DNS2 echo   Your DNS (Alt)      : %NEW_DNS2%
+echo -----------------------------------------------------------
+echo   This IP Changer Made By Tricknology YouTube Channel
+echo ===========================================================
+
+echo.
+pause
+exit /b 0
+
+
+:error
+color 0C
+echo.
+echo [ERROR] Failed to apply IP settings!
+echo - Run the script as Administrator.
+echo - Check the interface name: "%INTERFACE%"
+echo - Verify IP, Mask, Gateway and DNS values.
+echo.
+pause
+exit /b 1
