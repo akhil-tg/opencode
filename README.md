@@ -102,7 +102,7 @@ Error: Free usage limit reached.
 ### Test 2: GLM 5.3 Flash Free
 
 ```powershell
-opencode run --model opencode/glm-5.3-flash-free "Hello"
+opencode run --model opencode/deepseek-v4.1-flash-free "Hello"
 ```
 
 Result:
